@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trainer Performance System - Educate!</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 48px 24px 32px;
+        }
+
+        .logo {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: bold;
+            color: #f97316;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+
+        .org-name {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        /* Main Content */
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px;
+        }
+
+        /* Cards Container */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            max-width: 900px;
+            width: 100%;
+            margin-bottom: 48px;
+        }
+
+        /* Dashboard Card */
+        .dashboard-card {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 32px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-8px);
+            border-color: #f97316;
+            box-shadow: 0 20px 40px rgba(249, 115, 22, 0.2);
+        }
+
+        .card-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #f97316;
+            margin-bottom: 8px;
+        }
+
+        .card-description {
+            font-size: 14px;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            flex: 1;
+        }
+
+        .card-features {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .card-features li {
+            font-size: 13px;
+            color: #cbd5e1;
+            padding: 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-features li::before {
+            content: '✓';
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        .card-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 24px;
+            background: #f97316;
+            color: white;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .dashboard-card:hover .card-button {
+            background: #ea580c;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 24px 32px;
+            max-width: 900px;
+            width: 100%;
+            margin-bottom: 32px;
+        }
+
+        .stats-title {
+            font-size: 14px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #f97316;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+
+        .stat-loading {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* Quick Links */
+        .quick-links {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 32px;
+        }
+
+        .quick-link {
+            padding: 10px 20px;
+            background: #334155;
+            border-radius: 8px;
+            color: #e2e8f0;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quick-link:hover {
+            background: #475569;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 24px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .footer a {
+            color: #94a3b8;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #f97316;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 32px 16px 24px;
+            }
+
+            .title {
+                font-size: 24px;
+            }
+
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .quick-links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">🎓</div>
+        <h1 class="title">Trainer Performance Intelligence</h1>
+        <p class="subtitle">AI-Powered Analysis for E!BA Bootcamp 2025</p>
+        <p class="org-name">Educate!</p>
+    </header>
+
+    <main class="main">
+        <!-- Live Stats -->
+        <div class="stats-section">
+            <div class="stats-title">Live Program Statistics</div>
+            <div class="stats-grid" id="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-trainers">--</div>
+                    <div class="stat-label">Trainers</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-observations">--</div>
+                    <div class="stat-label">Observations</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-avg">--</div>
+                    <div class="stat-label">Avg Score</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-districts">--</div>
+                    <div class="stat-label">Districts</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Cards -->
+        <div class="cards-container">
+            <!-- Full Dashboard -->
+            <a href="dashboard.html" class="dashboard-card">
+                <div class="card-icon">📊</div>
+                <h2 class="card-title">Full Dashboard</h2>
+                <p class="card-description">
+                    Complete trainer performance dashboard with all features. 
+                    Best for daily monitoring and comprehensive analysis.
+                </p>
+                <ul class="card-features">
+                    <li>Filter by District, Site, Week</li>
+                    <li>View all trainers with scores</li>
+                    <li>Competency breakdowns</li>
+                    <li>Observation history</li>
+                    <li>Comparison charts</li>
+                    <li>AI-powered analysis</li>
+                </ul>
+                <div class="card-button">
+                    Open Full Dashboard →
+                </div>
+            </a>
+
+            <!-- Quick Analysis -->
+            <a href="analysis.html" class="dashboard-card">
+                <div class="card-icon">🎯</div>
+                <h2 class="card-title">Quick Analysis</h2>
+                <p class="card-description">
+                    Streamlined trainer analysis view. Perfect for quick lookups 
+                    and embedding in other tools like Looker.
+                </p>
+                <ul class="card-features">
+                    <li>Select any trainer</li>
+                    <li>Executive summary</li>
+                    <li>Key strengths & development areas</li>
+                    <li>Detailed improvement plan</li>
+                    <li>Observer action items</li>
+                    <li>Collapsible sections</li>
+                </ul>
+                <div class="card-button">
+                    Open Quick Analysis →
+                </div>
+            </a>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="quick-links">
+            <a href="https://trainer-performance-system.onrender.com/docs" target="_blank" class="quick-link">
+                📚 API Documentation
+            </a>
+            <a href="https://trainer-performance-system.onrender.com/api/health" target="_blank" class="quick-link">
+                ❤️ API Health Check
+            </a>
+            <a href="https://trainer-performance-system.onrender.com/api/benchmarks" target="_blank" class="quick-link">
+                📈 Program Benchmarks
+            </a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>Trainer Performance Intelligence System v2.1</p>
+        <p style="margin-top: 8px;">
+            Data refreshes automatically every 15 minutes • 
+            <a href="https://trainer-performance-system.onrender.com" target="_blank">API Status</a>
+        </p>
+    </footer>
+
+    <script>
+        // Load live stats from API
+        const API_BASE_URL = 'https://trainer-performance-system.onrender.com';
+        const API_USERNAME = 'educate';
+        const API_PASSWORD = 'EBA_Uganda_2026';
+
+        function getAuthHeader() {
+            const credentials = btoa(`${API_USERNAME}:${API_PASSWORD}`);
+            return { 'Authorization': `Basic ${credentials}` };
+        }
+
+        async function loadStats() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/benchmarks`, {
+                    headers: getAuthHeader()
+                });
+                
+                if (!response.ok) throw new Error('Failed to load');
+                
+                const data = await response.json();
+                
+                document.getElementById('stat-trainers').textContent = data.program?.trainers || 0;
+                document.getElementById('stat-observations').textContent = data.program?.observations || 0;
+                document.getElementById('stat-avg').textContent = data.program?.average?.toFixed(2) || '0';
+                document.getElementById('stat-districts').textContent = Object.keys(data.districts || {}).length;
+                
+            } catch (error) {
+                console.error('Failed to load stats:', error);
+                document.getElementById('stat-trainers').textContent = '--';
+                document.getElementById('stat-observations').textContent = '--';
+                document.getElementById('stat-avg').textContent = '--';
+                document.getElementById('stat-districts').textContent = '--';
+            }
+        }
+
+        // Load stats on page load
+        loadStats();
+    </script>
+</body>
+</html>

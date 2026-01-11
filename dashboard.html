@@ -28,6 +28,24 @@
         .clear-btn { width: 100%; padding: 8px; background: transparent; border: 1px solid #475569; border-radius: 6px; color: #94a3b8; cursor: pointer; margin-top: 4px; }
         .clear-btn:hover { background: #334155; }
         
+        /* Quick Insights Toggle - Compact for Mobile */
+        .quick-insights-toggle { padding: 10px 12px; background: #0f172a; border-bottom: 1px solid #334155; cursor: pointer; display: none; }
+        .quick-insights-header { display: flex; justify-content: space-between; align-items: center; }
+        .quick-insights-title { font-size: 12px; color: #f97316; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+        .quick-insights-summary { display: flex; gap: 12px; align-items: center; }
+        .quick-stat { text-align: center; }
+        .quick-stat-value { font-size: 16px; font-weight: bold; color: #f97316; }
+        .quick-stat-label { font-size: 9px; color: #64748b; }
+        .toggle-arrow { color: #64748b; font-size: 12px; transition: transform 0.2s; }
+        .toggle-arrow.expanded { transform: rotate(180deg); }
+        .quick-insights-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; background: #0f172a; }
+        .quick-insights-content.expanded { max-height: 250px; overflow-y: auto; }
+        .quick-insights-details { padding: 12px; font-size: 12px; }
+        .quick-insight-item { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid #1e293b; }
+        .quick-insight-item:last-child { border-bottom: none; }
+        .view-full-btn { display: block; width: calc(100% - 24px); margin: 8px 12px; padding: 8px; background: #334155; border: 1px solid #475569; border-radius: 6px; color: #94a3b8; cursor: pointer; font-size: 11px; text-align: center; }
+        .view-full-btn:hover { background: #475569; color: #e2e8f0; }
+        
         /* Trainer List */
         .trainer-list { flex: 1; overflow-y: auto; padding: 16px; }
         .list-title { font-size: 14px; color: #94a3b8; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
@@ -39,6 +57,7 @@
         
         /* Main Panel */
         .main-panel { flex: 1; padding: 24px; overflow-y: auto; }
+        .placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; color: #64748b; }
         
         /* View Header */
         .view-header { display: flex; justify-content: space-between; align-items: center; padding: 20px; background: #1e293b; border-radius: 12px; margin-bottom: 24px; }
@@ -160,26 +179,84 @@
         .score-exceptional { color: #059669; } .score-strong { color: #10b981; } .score-adequate { color: #f59e0b; } .score-developing { color: #f97316; } .score-needs-support { color: #ef4444; }
         .bg-exceptional { background: #059669; } .bg-strong { background: #10b981; } .bg-adequate { background: #f59e0b; } .bg-developing { background: #f97316; } .bg-needs-support { background: #ef4444; }
         .border-exceptional { border-left-color: #059669; } .border-strong { border-left-color: #10b981; } .border-adequate { border-left-color: #f59e0b; } .border-developing { border-left-color: #f97316; } .border-needs-support { border-left-color: #ef4444; }
+        .insight-positive { color: #10b981; }
+        .insight-warning { color: #f59e0b; }
+        .insight-negative { color: #ef4444; }
         
-        /* Responsive */
-        @media (max-width: 1024px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } .comparison-grid { grid-template-columns: 1fr; } }
-        @media (max-width: 768px) { .main-container { flex-direction: column; height: auto; } .sidebar { width: 100%; max-height: 40vh; } .header-stats { display: none; } .competency-item { grid-template-columns: 1fr; gap: 4px; } .rankings-header, .rankings-row { grid-template-columns: 40px 1fr 60px; } .rankings-header span:nth-child(4), .rankings-row span:nth-child(4), .rankings-header span:nth-child(5), .rankings-row span:nth-child(5) { display: none; } }
+        /* Back Button */
+        .back-button { display: none; padding: 12px 16px; background: #1e293b; border-bottom: 1px solid #334155; align-items: center; gap: 8px; cursor: pointer; color: #f97316; font-size: 14px; font-weight: 500; }
+        .back-button:hover { background: #334155; }
+        
+        /* MOBILE RESPONSIVE */
+        @media (max-width: 768px) {
+            .header { padding: 12px 16px; }
+            .header h1 { font-size: 18px; }
+            .header-stats { display: none; }
+            
+            .main-container { flex-direction: column; height: auto; min-height: calc(100vh - 60px); }
+            
+            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #334155; }
+            .sidebar.has-selection .filter-section { display: none; }
+            .sidebar.has-selection .quick-insights-toggle { display: none; }
+            .sidebar.has-selection .quick-insights-content { display: none; }
+            .sidebar.has-selection .trainer-list { display: none; }
+            .sidebar.has-selection .back-button { display: flex; }
+            
+            .filter-section { padding: 12px; }
+            .filter-select { padding: 10px; font-size: 13px; margin-bottom: 6px; }
+            
+            .quick-insights-toggle { display: block; }
+            
+            .trainer-list { max-height: 40vh; padding: 12px; }
+            .trainer-card { padding: 10px; margin-bottom: 6px; }
+            .trainer-card-name { font-size: 13px; }
+            .trainer-card-score { font-size: 15px; }
+            
+            .main-panel { padding: 16px; }
+            .main-panel.hidden { display: none; }
+            
+            .view-header { padding: 16px; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+            .view-title { font-size: 20px; }
+            .score-circle { width: 70px; height: 70px; }
+            .score-circle-value { font-size: 20px; }
+            
+            .tabs { gap: 4px; margin-bottom: 16px; overflow-x: auto; flex-wrap: nowrap; }
+            .tab { padding: 10px 14px; font-size: 13px; white-space: nowrap; flex-shrink: 0; }
+            
+            .tab-content { padding: 16px; }
+            .section-title { font-size: 15px; margin-bottom: 12px; }
+            
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .stats-grid-item { padding: 12px; }
+            .stats-grid-value { font-size: 22px; }
+            
+            .competency-item { grid-template-columns: 120px 1fr 50px; gap: 8px; margin-bottom: 10px; }
+            .competency-label { font-size: 12px; }
+            
+            .comparison-grid { grid-template-columns: 1fr; }
+            
+            .rankings-header, .rankings-row { grid-template-columns: 35px 1fr 60px 70px; }
+            .rankings-header span:nth-child(5), .rankings-row span:nth-child(5) { display: none; }
+            
+            .action-step { gap: 12px; padding: 14px; }
+            .step-number { width: 28px; height: 28px; font-size: 12px; }
+        }
+        
+        @media (min-width: 769px) {
+            .back-button { display: none !important; }
+            .quick-insights-toggle { display: none !important; }
+            .quick-insights-content { display: none !important; }
+        }
     </style>
 </head>
 <body>
     <div id="app"><div class="loading"><div class="spinner"></div><p class="loading-text">Loading trainer data...</p></div></div>
     
     <script>
-        // =============================================================================
-        // CONFIGURATION
-        // =============================================================================
         const API_BASE_URL = 'https://trainer-performance-system.onrender.com';
         const API_USERNAME = 'educate';
         const API_PASSWORD = 'EBA_Uganda_2026';
 
-        // =============================================================================
-        // STATE
-        // =============================================================================
         let state = {
             trainers: [],
             benchmarks: null,
@@ -190,12 +267,10 @@
             districtFilter: '',
             siteFilter: '',
             weekFilter: '',
-            viewMode: 'aggregate' // 'aggregate' or 'trainer'
+            viewMode: 'list',
+            quickInsightsExpanded: false
         };
 
-        // =============================================================================
-        // API FUNCTIONS
-        // =============================================================================
         function getAuthHeader() { 
             return { 'Authorization': `Basic ${btoa(`${API_USERNAME}:${API_PASSWORD}`)}` }; 
         }
@@ -219,7 +294,7 @@
                 render();
             } catch (error) {
                 console.error('Failed to load data:', error);
-                renderError('Failed to load data. The server might be waking up - please wait 30 seconds and try again.');
+                renderError('Failed to load data. Please wait 30 seconds and try again.');
             }
         }
 
@@ -232,9 +307,6 @@
             }
         }
 
-        // =============================================================================
-        // HELPER FUNCTIONS
-        // =============================================================================
         function getScoreColor(score) {
             if (score >= 4.5) return 'exceptional';
             if (score >= 4.0) return 'strong';
@@ -279,21 +351,17 @@
         }
 
         // =============================================================================
-        // AGGREGATE ANALYTICS
+        // AGGREGATE ANALYTICS - FULL DETAIL
         // =============================================================================
         function calculateAggregateAnalytics() {
             const trainers = getFilteredTrainers();
             if (trainers.length === 0) return null;
 
-            // Basic stats
             const scores = trainers.map(t => t.stats?.average_score || 0);
             const avgScore = scores.reduce((a, b) => a + b, 0) / scores.length;
             const totalObs = trainers.reduce((sum, t) => sum + (t.stats?.observations_count || 0), 0);
-            
-            // Sorted trainers
             const sortedTrainers = [...trainers].sort((a, b) => (b.stats?.average_score || 0) - (a.stats?.average_score || 0));
             
-            // Performance distribution
             const distribution = { exceptional: 0, strong: 0, adequate: 0, developing: 0, needsSupport: 0 };
             trainers.forEach(t => {
                 const score = t.stats?.average_score || 0;
@@ -304,14 +372,12 @@
                 else distribution.needsSupport++;
             });
 
-            // Trends
             const trends = {
                 improving: trainers.filter(t => t.stats?.trend === 'improving').length,
                 declining: trainers.filter(t => t.stats?.trend === 'declining').length,
                 stable: trainers.filter(t => t.stats?.trend === 'stable').length
             };
 
-            // Competency analysis
             const competencies = ['pck', 'fds', 'em', 'gr', 'cm', 'leadership'];
             const competencyNames = {
                 'pck': 'Pedagogical Content Knowledge',
@@ -330,23 +396,15 @@
                         if (obs[comp] && obs[comp] > 0) { total += obs[comp]; count++; }
                     });
                 });
-                competencyData[comp] = {
-                    name: competencyNames[comp],
-                    avg: count > 0 ? total / count : 0,
-                    count: count
-                };
+                competencyData[comp] = { name: competencyNames[comp], avg: count > 0 ? total / count : 0, count: count };
             });
 
             const sortedCompetencies = Object.entries(competencyData).sort((a, b) => b[1].avg - a[1].avg);
             const strongestComps = sortedCompetencies.slice(0, 2);
             const weakestComps = sortedCompetencies.slice(-2).reverse();
 
-            // Trainers needing attention
-            const needsAttention = trainers.filter(t => 
-                (t.stats?.average_score || 0) < 3.0 || t.stats?.trend === 'declining'
-            );
+            const needsAttention = trainers.filter(t => (t.stats?.average_score || 0) < 3.0 || t.stats?.trend === 'declining');
 
-            // Gender breakdown
             const genderStats = {};
             trainers.forEach(t => {
                 const gender = t.trainer_gender || 'Unknown';
@@ -378,12 +436,7 @@
         function generateAggregateInsights(analytics) {
             if (!analytics) return null;
             
-            const insights = {
-                strengths: [],
-                concerns: [],
-                recommendations: [],
-                actionPlan: []
-            };
+            const insights = { strengths: [], concerns: [], recommendations: [], actionPlan: [] };
 
             // Analyze strengths
             analytics.strongestCompetencies.forEach(([key, data]) => {
@@ -431,24 +484,6 @@
                 });
             }
 
-            // Generate recommendations
-            const weakest = analytics.weakestCompetencies[0];
-            if (weakest && weakest[1].avg < 3.5) {
-                insights.recommendations.push({
-                    priority: 'HIGH',
-                    area: weakest[1].name,
-                    recommendation: `Organize group training session focused on ${weakest[1].name}. Current group average is ${weakest[1].avg.toFixed(2)}/5.0.`
-                });
-            }
-
-            if (analytics.trends.declining > 0) {
-                insights.recommendations.push({
-                    priority: 'HIGH',
-                    area: 'Performance Recovery',
-                    recommendation: `Schedule 1:1 coaching sessions with declining trainers: ${analytics.needsAttention.filter(t => t.stats?.trend === 'declining').map(t => t.trainer_name).join(', ')}`
-                });
-            }
-
             // Generate action plan
             let stepNum = 1;
 
@@ -467,6 +502,7 @@
                 });
             }
 
+            const weakest = analytics.weakestCompetencies[0];
             if (weakest && weakest[1].avg < 3.5) {
                 insights.actionPlan.push({
                     step: stepNum++,
@@ -498,6 +534,24 @@
             return insights;
         }
 
+        function calculateQuickInsights() {
+            const trainers = getFilteredTrainers();
+            if (trainers.length === 0) return null;
+
+            const scores = trainers.map(t => t.stats?.average_score || 0);
+            const avgScore = scores.reduce((a, b) => a + b, 0) / scores.length;
+            const sortedTrainers = [...trainers].sort((a, b) => (b.stats?.average_score || 0) - (a.stats?.average_score || 0));
+            
+            return {
+                count: trainers.length,
+                avgScore: avgScore,
+                topPerformer: sortedTrainers[0],
+                needsSupport: trainers.filter(t => (t.stats?.average_score || 0) < 3.0).length,
+                declining: trainers.filter(t => t.stats?.trend === 'declining').length,
+                improving: trainers.filter(t => t.stats?.trend === 'improving').length
+            };
+        }
+
         // =============================================================================
         // EVENT HANDLERS
         // =============================================================================
@@ -510,11 +564,23 @@
             render();
         }
 
+        function backToList() {
+            state.selectedTrainer = null;
+            state.trainerAnalysis = null;
+            state.viewMode = 'list';
+            render();
+        }
+
         function showAggregateView() {
             state.selectedTrainer = null;
             state.trainerAnalysis = null;
             state.viewMode = 'aggregate';
             state.activeTab = 'overview';
+            render();
+        }
+
+        function toggleQuickInsights() {
+            state.quickInsightsExpanded = !state.quickInsightsExpanded;
             render();
         }
 
@@ -527,27 +593,21 @@
             state.districtFilter = value;
             state.siteFilter = '';
             state.selectedTrainer = null;
-            state.trainerAnalysis = null;
-            state.viewMode = 'aggregate';
-            state.activeTab = 'overview';
+            state.viewMode = 'list';
             render();
         }
 
         function setSiteFilter(value) {
             state.siteFilter = value;
             state.selectedTrainer = null;
-            state.trainerAnalysis = null;
-            state.viewMode = 'aggregate';
-            state.activeTab = 'overview';
+            state.viewMode = 'list';
             render();
         }
 
         function setWeekFilter(value) {
             state.weekFilter = value;
             state.selectedTrainer = null;
-            state.trainerAnalysis = null;
-            state.viewMode = 'aggregate';
-            state.activeTab = 'overview';
+            state.viewMode = 'list';
             render();
         }
 
@@ -556,9 +616,7 @@
             state.siteFilter = '';
             state.weekFilter = '';
             state.selectedTrainer = null;
-            state.trainerAnalysis = null;
-            state.viewMode = 'aggregate';
-            state.activeTab = 'overview';
+            state.viewMode = 'list';
             render();
         }
 
@@ -569,6 +627,8 @@
             const app = document.getElementById('app');
             const filteredTrainers = getFilteredTrainers();
             const availableSites = getAvailableSites();
+            const quickInsights = calculateQuickInsights();
+            const hasSelection = state.viewMode === 'trainer' || state.viewMode === 'aggregate';
 
             app.innerHTML = `
                 <header class="header">
@@ -595,7 +655,9 @@
                 </header>
 
                 <div class="main-container">
-                    <aside class="sidebar">
+                    <aside class="sidebar ${hasSelection ? 'has-selection' : ''}">
+                        <div class="back-button" onclick="backToList()">← Back to Trainers</div>
+                        
                         <div class="filter-section">
                             <div class="filter-title">Filters</div>
                             <select class="filter-select" onchange="setDistrictFilter(this.value)">
@@ -610,17 +672,66 @@
                                 <option value="">All Weeks</option>
                                 ${state.filters?.weeks?.map(w => `<option value="${w}" ${state.weekFilter === w ? 'selected' : ''}>${w}</option>`).join('') || ''}
                             </select>
-                            ${(state.districtFilter || state.siteFilter || state.weekFilter) ? 
-                                `<button class="clear-btn" onclick="clearFilters()">Clear Filters</button>` : ''}
+                            ${(state.districtFilter || state.siteFilter || state.weekFilter) ? `<button class="clear-btn" onclick="clearFilters()">Clear Filters</button>` : ''}
                             <button class="clear-btn" style="margin-top: 8px; background: #f97316; border-color: #f97316; color: white;" onclick="showAggregateView()">
                                 📊 View ${getFilterContextName()} Insights
                             </button>
                         </div>
 
-                        <div class="trainer-list">
-                            <div class="list-title">
-                                <span>Trainers (${filteredTrainers.length})</span>
+                        <!-- Mobile Quick Insights Toggle -->
+                        ${quickInsights ? `
+                            <div class="quick-insights-toggle" onclick="toggleQuickInsights()">
+                                <div class="quick-insights-header">
+                                    <div class="quick-insights-title">💡 ${getFilterContextName()}</div>
+                                    <div class="quick-insights-summary">
+                                        <div class="quick-stat">
+                                            <div class="quick-stat-value">${quickInsights.count}</div>
+                                            <div class="quick-stat-label">Trainers</div>
+                                        </div>
+                                        <div class="quick-stat">
+                                            <div class="quick-stat-value score-${getScoreColor(quickInsights.avgScore)}">${quickInsights.avgScore.toFixed(2)}</div>
+                                            <div class="quick-stat-label">Avg</div>
+                                        </div>
+                                        <span class="toggle-arrow ${state.quickInsightsExpanded ? 'expanded' : ''}">▼</span>
+                                    </div>
+                                </div>
                             </div>
+                            <div class="quick-insights-content ${state.quickInsightsExpanded ? 'expanded' : ''}">
+                                <div class="quick-insights-details">
+                                    <div class="quick-insight-item">
+                                        <span>🏆</span>
+                                        <span>Top: <strong>${quickInsights.topPerformer?.trainer_name}</strong> (${quickInsights.topPerformer?.stats?.average_score?.toFixed(2)})</span>
+                                    </div>
+                                    ${quickInsights.needsSupport > 0 ? `
+                                        <div class="quick-insight-item">
+                                            <span>⚠️</span>
+                                            <span class="insight-warning">${quickInsights.needsSupport} need${quickInsights.needsSupport === 1 ? 's' : ''} support</span>
+                                        </div>
+                                    ` : `
+                                        <div class="quick-insight-item">
+                                            <span>✅</span>
+                                            <span class="insight-positive">All above 3.0</span>
+                                        </div>
+                                    `}
+                                    ${quickInsights.declining > 0 ? `
+                                        <div class="quick-insight-item">
+                                            <span>📉</span>
+                                            <span class="insight-negative">${quickInsights.declining} declining</span>
+                                        </div>
+                                    ` : ''}
+                                    ${quickInsights.improving > 0 ? `
+                                        <div class="quick-insight-item">
+                                            <span>📈</span>
+                                            <span class="insight-positive">${quickInsights.improving} improving</span>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                                <button class="view-full-btn" onclick="showAggregateView()">View Full Analysis →</button>
+                            </div>
+                        ` : ''}
+
+                        <div class="trainer-list">
+                            <div class="list-title"><span>Trainers (${filteredTrainers.length})</span></div>
                             ${filteredTrainers.map(t => `
                                 <div class="trainer-card border-${getScoreColor(t.stats?.average_score || 0)} ${state.selectedTrainer?.trainer_id === t.trainer_id ? 'selected' : ''}" 
                                      onclick="selectTrainer('${t.trainer_id}')">
@@ -635,23 +746,21 @@
                         </div>
                     </aside>
 
-                    <main class="main-panel">
-                        ${state.viewMode === 'trainer' && state.selectedTrainer ? 
-                            renderTrainerView() : 
-                            renderAggregateView()}
+                    <main class="main-panel ${state.viewMode === 'list' ? 'hidden' : ''}">
+                        ${state.viewMode === 'trainer' && state.selectedTrainer ? renderTrainerView() : 
+                          state.viewMode === 'aggregate' ? renderAggregateView() :
+                          `<div class="placeholder"><h2>👈 Select a trainer</h2><p>Choose a trainer from the list to view details</p></div>`}
                     </main>
                 </div>
             `;
         }
 
         // =============================================================================
-        // AGGREGATE VIEW RENDERS
+        // AGGREGATE VIEW RENDERS - FULL DETAIL
         // =============================================================================
         function renderAggregateView() {
             const analytics = calculateAggregateAnalytics();
-            if (!analytics) {
-                return `<div class="loading"><p class="loading-text">No trainers match the selected filters</p></div>`;
-            }
+            if (!analytics) return `<div class="loading"><p class="loading-text">No trainers match the selected filters</p></div>`;
 
             const insights = generateAggregateInsights(analytics);
 
@@ -682,15 +791,6 @@
         }
 
         function renderAggregateOverview(analytics) {
-            const competencyNames = {
-                'pck': 'Pedagogical Content',
-                'fds': 'Facilitation & Delivery',
-                'em': 'Entrepreneurship Mindset',
-                'gr': 'Gender Responsiveness',
-                'cm': 'Coaching & Mentoring',
-                'leadership': 'Leadership'
-            };
-
             return `
                 <!-- Key Statistics -->
                 <div class="section">
@@ -774,30 +874,20 @@
         }
 
         function renderAggregateComparisons(analytics) {
-            // Compare with program if we're at district/site level
             const programAvg = state.benchmarks?.program?.average || analytics.avgScore;
             const currentAvg = analytics.avgScore;
             const diff = currentAvg - programAvg;
 
-            // District comparisons
             const districtComparisons = [];
             if (state.benchmarks?.districts) {
                 Object.entries(state.benchmarks.districts).forEach(([name, data]) => {
-                    districtComparisons.push({
-                        name: name,
-                        avg: data.average,
-                        trainers: data.trainers,
-                        isCurrent: name === state.districtFilter
-                    });
+                    districtComparisons.push({ name, avg: data.average, trainers: data.trainers, isCurrent: name === state.districtFilter });
                 });
                 districtComparisons.sort((a, b) => b.avg - a.avg);
             }
 
-            // Gender comparison
             const genderComps = Object.entries(analytics.genderStats).map(([gender, data]) => ({
-                name: gender,
-                avg: data.avg,
-                count: data.count
+                name: gender, avg: data.avg, count: data.count
             }));
 
             return `
@@ -854,7 +944,7 @@
                         <h3 class="section-title">📍 District Comparison</h3>
                         <div style="display: flex; flex-direction: column; gap: 8px;">
                             ${districtComparisons.map((d, i) => `
-                                <div style="display: grid; grid-template-columns: 30px 1fr 60px 60px; gap: 12px; align-items: center; padding: 8px; background: ${d.isCurrent ? '#334155' : '#0f172a'}; border-radius: 6px; ${d.isCurrent ? 'border: 1px solid #f97316;' : ''}">
+                                <div style="display: grid; grid-template-columns: 30px 1fr 60px 80px; gap: 12px; align-items: center; padding: 10px; background: ${d.isCurrent ? '#334155' : '#0f172a'}; border-radius: 6px; ${d.isCurrent ? 'border: 1px solid #f97316;' : ''}">
                                     <span style="font-weight: bold; color: ${i === 0 ? '#fbbf24' : '#94a3b8'};">#${i + 1}</span>
                                     <span style="font-weight: ${d.isCurrent ? '600' : '400'};">${d.name} ${d.isCurrent ? '(Current)' : ''}</span>
                                     <span class="score-${getScoreColor(d.avg)}" style="font-weight: bold;">${d.avg.toFixed(2)}</span>
@@ -918,7 +1008,7 @@
                 <!-- Intervention Urgency -->
                 <div class="section">
                     <h3 class="section-title">⚡ Intervention Urgency</h3>
-                    <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
                         <span class="urgency-badge" style="background: ${urgencyColor}">${urgencyLevel.toUpperCase()}</span>
                         <span style="color: #94a3b8; font-size: 14px;">
                             ${urgencyLevel === 'immediate' ? 'Critical issues require immediate attention' :
@@ -934,9 +1024,7 @@
                         <h3 class="section-title">💪 Key Strengths</h3>
                         ${insights.strengths.map(s => `
                             <div class="insight-card strength">
-                                <div class="insight-title strength">
-                                    ${s.title} ${s.score ? `(${s.score.toFixed(2)}/5.0)` : ''}
-                                </div>
+                                <div class="insight-title strength">${s.title} ${s.score ? `(${s.score.toFixed(2)}/5.0)` : ''}</div>
                                 <div class="insight-text">${s.text}</div>
                             </div>
                         `).join('')}
@@ -976,9 +1064,7 @@
                                     ${step.actions?.length ? `
                                         <div class="step-actions">
                                             <div class="step-actions-title">ACTION STEPS:</div>
-                                            <ul class="step-actions-list">
-                                                ${step.actions.map(a => `<li>${a}</li>`).join('')}
-                                            </ul>
+                                            <ul class="step-actions-list">${step.actions.map(a => `<li>${a}</li>`).join('')}</ul>
                                         </div>
                                     ` : ''}
                                     ${step.metric ? `<div class="success-metric">🎯 Success Metric: ${step.metric}</div>` : ''}
@@ -994,7 +1080,7 @@
                         <h3 class="section-title">🚨 Trainers Needing Immediate Attention</h3>
                         <div style="display: flex; flex-direction: column; gap: 8px;">
                             ${analytics.needsAttention.map(t => `
-                                <div style="display: grid; grid-template-columns: 1fr 80px 100px 100px; gap: 12px; align-items: center; padding: 12px; background: #7f1d1d33; border-radius: 6px; border-left: 4px solid #ef4444; cursor: pointer;" onclick="selectTrainer('${t.trainer_id}')">
+                                <div style="display: grid; grid-template-columns: 1fr 70px 90px 100px; gap: 12px; align-items: center; padding: 12px; background: #7f1d1d33; border-radius: 6px; border-left: 4px solid #ef4444; cursor: pointer;" onclick="selectTrainer('${t.trainer_id}')">
                                     <span style="font-weight: 600;">${t.trainer_name}</span>
                                     <span class="score-${getScoreColor(t.stats?.average_score || 0)}" style="font-weight: bold;">${t.stats?.average_score?.toFixed(2) || '0.00'}</span>
                                     <span style="font-size: 12px;">${t.stats?.trend === 'declining' ? '📉 Declining' : '⚠️ Below 3.0'}</span>
@@ -1008,11 +1094,10 @@
         }
 
         // =============================================================================
-        // TRAINER VIEW RENDERS
+        // TRAINER VIEW RENDERS - FULL DETAIL
         // =============================================================================
         function renderTrainerView() {
             const t = state.selectedTrainer;
-            
             return `
                 <div class="view-header">
                     <div>
@@ -1024,13 +1109,11 @@
                         <span class="score-circle-label">${getScoreLabel(t.stats?.average_score || 0)}</span>
                     </div>
                 </div>
-
                 <div class="tabs">
                     <button class="tab ${state.activeTab === 'overview' ? 'active' : ''}" onclick="setTab('overview')">Overview</button>
                     <button class="tab ${state.activeTab === 'comparisons' ? 'active' : ''}" onclick="setTab('comparisons')">Comparisons</button>
                     <button class="tab ${state.activeTab === 'insights' ? 'active' : ''}" onclick="setTab('insights')">AI Insights</button>
                 </div>
-
                 <div class="tab-content">
                     ${state.activeTab === 'overview' ? renderTrainerOverview() : ''}
                     ${state.activeTab === 'comparisons' ? renderTrainerComparisons() : ''}
@@ -1068,7 +1151,7 @@
                             <div class="stats-grid-label">${t.stats?.trend?.charAt(0).toUpperCase() + t.stats?.trend?.slice(1) || 'Stable'}</div>
                         </div>
                         <div class="stats-grid-item">
-                            <div class="stats-grid-value">${getScoreLabel(t.stats?.average_score || 0)}</div>
+                            <div class="stats-grid-value" style="font-size: 18px;">${getScoreLabel(t.stats?.average_score || 0)}</div>
                             <div class="stats-grid-label">Performance Level</div>
                         </div>
                     </div>
@@ -1089,12 +1172,7 @@
 
                 <div class="section">
                     <h3 class="section-title">📅 Observation History</h3>
-                    <div class="history-header">
-                        <span>Date</span>
-                        <span>Week</span>
-                        <span>Observer</span>
-                        <span>Score</span>
-                    </div>
+                    <div class="history-header"><span>Date</span><span>Week</span><span>Observer</span><span>Score</span></div>
                     ${t.observations?.map(o => `
                         <div class="history-row">
                             <span>${o.date || '-'}</span>
@@ -1108,9 +1186,7 @@
         }
 
         function renderTrainerComparisons() {
-            if (!state.trainerAnalysis) {
-                return '<div class="loading"><div class="spinner"></div><p class="loading-text">Loading comparisons...</p></div>';
-            }
+            if (!state.trainerAnalysis) return '<div class="loading"><div class="spinner"></div><p class="loading-text">Loading comparisons...</p></div>';
 
             const comparisons = [
                 { key: 'program', label: 'Program-Wide', icon: '🌍' },
@@ -1157,13 +1233,10 @@
         }
 
         function renderTrainerInsights() {
-            if (!state.trainerAnalysis) {
-                return '<div class="loading"><div class="spinner"></div><p class="loading-text">Loading AI insights...</p></div>';
-            }
+            if (!state.trainerAnalysis) return '<div class="loading"><div class="spinner"></div><p class="loading-text">Loading AI insights...</p></div>';
 
             const a = state.trainerAnalysis;
-            const urgencyColor = a.intervention_urgency === 'immediate' ? '#ef4444' : 
-                                a.intervention_urgency === 'short-term' ? '#f59e0b' : '#10b981';
+            const urgencyColor = a.intervention_urgency === 'immediate' ? '#ef4444' : a.intervention_urgency === 'short-term' ? '#f59e0b' : '#10b981';
 
             return `
                 <div class="section">
@@ -1173,7 +1246,7 @@
 
                 <div class="section">
                     <h3 class="section-title">⚡ Intervention Urgency</h3>
-                    <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
                         <span class="urgency-badge" style="background: ${urgencyColor}">${(a.intervention_urgency || 'monitoring').toUpperCase()}</span>
                         <span style="color: #94a3b8; font-size: 14px;">${a.urgency_rationale || ''}</span>
                     </div>
@@ -1202,6 +1275,7 @@
                                     ${d.urgency ? `<span style="font-size: 11px; padding: 2px 8px; border-radius: 10px; background: ${d.urgency === 'HIGH' ? '#ef4444' : d.urgency === 'MEDIUM' ? '#f59e0b' : '#6b7280'}; color: white; margin-left: 8px;">${d.urgency}</span>` : ''}
                                 </div>
                                 <div class="insight-text">${d.analysis}</div>
+                                ${d.example ? `<div style="color: #94a3b8; font-size: 13px; margin-top: 8px; font-style: italic;">"${d.example}"</div>` : ''}
                             </div>
                         `).join('')}
                     </div>
@@ -1264,7 +1338,6 @@
             `;
         }
 
-        // Initialize
         loadData();
     </script>
 </body>
